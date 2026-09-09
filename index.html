@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assembling Two Parts in One Hand</title>
+  <meta name="description" content="In-hand assembly with a single dexterous hand: reinforcement learning, functional finger coordination, and zero-shot sim-to-real transfer across Bottle, Syringe, and Marker tasks.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Assembling Two Parts in One Hand">
+  <meta property="og:description" content="A single dexterous hand learns to align and assemble two parts across Bottle, Syringe, and Marker tasks.">
+  <meta property="og:url" content="https://ltbgbird.github.io/in-hand-assembly-page/">
+  <link rel="canonical" href="https://ltbgbird.github.io/in-hand-assembly-page/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- 封面：在 assets/style.css 的 --hero-image 处填入自己的封面图片路径。 -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Assembling Two Parts<br>in One Hand</h1>
+      <p class="hero-subtitle">Learning fine finger coordination for in-hand assembly</p>
+      <!-- 当前署名沿用用户提供的匿名稿。获得正式作者和单位后替换此处。 -->
+      <p class="authors"><span>Anonymous Author(s)</span></p>
+      <nav class="paper-links" aria-label="Paper resources">
+        <a class="resource-link" href="assets/papers/paper.pdf" target="_blank" rel="noopener noreferrer">
+          <span aria-hidden="true">▤</span> Paper (PDF)
+        </a>
+        <a class="resource-link" href="#results">
+          <span aria-hidden="true">↓</span> Results
+        </a>
+        <!-- 收到真实 arXiv、算法仓库和视频链接后，再添加对应按钮。 -->
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="content">
+    <section class="section teaser" aria-labelledby="teaser-heading">
+      <h2 id="teaser-heading">Two parts, coordinated within a single hand</h2>
+      <p class="lead">A single dexterous hand stabilizes, aligns, and assembles two interacting objects. Policies learned entirely in simulation transfer to real hardware using a single camera and historical proprioception.</p>
+      <!-- 空媒体会保持隐藏。填入任意 data-src 后，这一组会自动显示。 -->
+      <div class="video-selector" data-video-selector data-optional-media hidden>
+        <div class="media-stage" data-stage>
+          <video hidden controls playsinline muted loop preload="metadata" aria-label="In-hand assembly demonstrations"></video>
+          <div class="placeholder" data-placeholder role="status" aria-live="polite">
+            <span class="play-symbol" aria-hidden="true">▷</span>
+            <strong data-placeholder-title>Bottle</strong>
+            <span data-placeholder-note>Demonstration video</span>
+          </div>
+        </div>
+        <div class="video-options" role="group" aria-label="Choose an assembly task">
+          <button type="button" class="video-option" data-src="" aria-pressed="true">Bottle</button>
+          <button type="button" class="video-option" data-src="" aria-pressed="false">Syringe</button>
+          <button type="button" class="video-option" data-src="" aria-pressed="false">Marker</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="abstract-heading">
+      <h2 id="abstract-heading">Abstract</h2>
+      <p>A hallmark of human dexterity is the cooperative use of fingers, where different fingers take on distinct yet coordinated roles to accomplish fine manipulation, such as capping a pen with the hand that holds it. We study this finger-level coordination through in-hand assembly: mating two rigid objects within a single dexterous hand, with no second arm and no fixture. We present a reinforcement learning formulation to solve this problem in a unified framework, which is driven by a goal relative pose between the two parts. Finger coordination is shaped by a function-based auxiliary reward and regularized toward a single human reference pose, while domain randomization and a fusion of historical proprioception and object observation confer robustness to occlusion-induced estimation noise. The same recipe solves three different assembly tasks (Bottle, Syringe, and Marker). Trained purely in simulation, the policies transfer zero-shot to hardware with a single camera, demonstrating robustness to state-estimation errors caused by occlusion. Our experiments also reveal that in-hand assembly places demands on hand morphology, as a benchmark for modern robotic hand systems.</p>
+    </section>
+
+    <section class="section" aria-labelledby="overview-heading">
+      <h2 id="overview-heading">Overview</h2>
+      <p>In-hand assembly requires one hand to support both objects while bringing them into a target relative pose. The task family includes bottle-cap assembly, syringe insertion, and marker-cap fitting. Each task demands precise alignment and coordinated contact across multiple fingers.</p>
+      <p>Our real-world system uses a 22-DoF Sharpa Wave Hand, mounted on a Franka Research 3 arm, and a single RealSense D435 camera. FoundationPose tracks the objects, while a recurrent policy combines their estimated poses with the hand's joint-angle history to control assembly.</p>
+      <figure data-optional-media hidden>
+        <!-- 例如 data-image="assets/images/overview.png"；填写路径后自动显示。 -->
+        <div class="figure-slot" data-image="" data-alt="Real-world Bottle, Syringe, and Marker assembly tasks performed by a single dexterous hand">
+          <div class="placeholder figure-placeholder"><strong>Overview figure</strong></div>
+        </div>
+        <figcaption>Real-world in-hand assembly across Bottle, Syringe, and Marker tasks.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section" aria-labelledby="method-heading">
+      <h2 id="method-heading">Method</h2>
+      <p>We formulate assembly as a partially observable reinforcement learning problem driven by the relative pose between two parts. A shared observation, action, and reward formulation is used across the three tasks.</p>
+      <ol class="method-steps">
+        <li><strong>Relative-pose goal reaching.</strong> Position and axis-alignment rewards guide the held part toward the assembly target on the other part.</li>
+        <li><strong>Functional finger coordination.</strong> Auxiliary rewards encourage the thumb and index finger to manipulate one part while the remaining fingers support and coordinate the other. A single human reference snapshot provides an initialization and a nominal hand-pose prior.</li>
+        <li><strong>Robust closed-loop control.</strong> Recurrent policies combine estimated object states with proprioceptive history. Domain randomization and a depth-consistency gate help address noisy observations caused by occlusion during deployment.</li>
+      </ol>
+      <figure data-optional-media hidden>
+        <div class="figure-slot" data-image="" data-alt="Overview of the in-hand assembly reinforcement learning pipeline">
+          <div class="placeholder figure-placeholder"><strong>Method figure</strong></div>
+        </div>
+        <figcaption>Simulation-based reinforcement learning with finger-function rewards, a human pose prior, and observation randomization.</figcaption>
+      </figure>
+    </section>
+
+    <section id="results" class="section" aria-labelledby="results-heading">
+      <h2 id="results-heading">Real-World Results</h2>
+      <p>We compare the closed-loop policy with open-loop replay of successful simulation trajectories in 20 consecutive real-world trials per task and method. Feedback substantially improves both alignment and completed assembly.</p>
+      <div class="table-scroll" role="region" aria-label="Real-world success counts" tabindex="0">
+        <table>
+          <caption>Successful trials out of 20 · Table 1 in the paper</caption>
+          <thead>
+            <tr>
+              <th scope="col" rowspan="2">Task</th>
+              <th scope="colgroup" colspan="2">Closed-loop (ours)</th>
+              <th scope="colgroup" colspan="2">Open-loop replay</th>
+            </tr>
+            <tr>
+              <th scope="col">Alignment</th><th scope="col">Assembly</th>
+              <th scope="col">Alignment</th><th scope="col">Assembly</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Bottle</th><td>18 / 20</td><td class="result-highlight">15 / 20</td><td>2 / 20</td><td>2 / 20</td></tr>
+            <tr><th scope="row">Syringe</th><td>18 / 20</td><td class="result-highlight">17 / 20</td><td>1 / 20</td><td>0 / 20</td></tr>
+            <tr><th scope="row">Marker</th><td>16 / 20</td><td class="result-highlight">16 / 20</td><td>0 / 20</td><td>0 / 20</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">Alignment: insertion depth greater than 1 cm. Assembly: final insertion depth within 1 cm of the target.</p>
+      <div class="video-selector comparison-media" data-video-selector data-optional-media hidden>
+        <div class="media-stage" data-stage>
+          <video hidden controls playsinline muted loop preload="metadata" aria-label="Closed-loop and open-loop comparison"></video>
+          <div class="placeholder" data-placeholder role="status" aria-live="polite">
+            <span class="play-symbol" aria-hidden="true">▷</span><strong data-placeholder-title>Bottle</strong><span data-placeholder-note>Comparison video</span>
+          </div>
+        </div>
+        <div class="video-options" role="group" aria-label="Choose a comparison task">
+          <button type="button" class="video-option" data-src="" aria-pressed="true">Bottle</button>
+          <button type="button" class="video-option" data-src="" aria-pressed="false">Syringe</button>
+          <button type="button" class="video-option" data-src="" aria-pressed="false">Marker</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="robustness-heading">
+      <h2 id="robustness-heading">Robustness and Hand Morphology</h2>
+      <p>We evaluate policies under random observation noise and systematic offsets in simulation. Real-world tests include externally induced cap misalignment, pulling the syringe plunger out during execution, and assembly at different hand tilts. These experiments demonstrate recovery from some unexpected state deviations, while also exposing limits under large estimation offsets and challenging grasp configurations.</p>
+      <p>In-hand assembly also probes the capabilities of different robotic hands. Experiments on Sharpa, Wuji, Allegro, and XHand in simulation show that finger count, joint ranges, and available degrees of freedom affect precise alignment and deep insertion.</p>
+      <div class="video-grid" data-media-grid hidden>
+        <figure data-optional-media hidden>
+          <div class="standalone-video" data-video="" data-title="Recovery from bottle-cap misalignment">
+            <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Bottle perturbation</strong></div>
+          </div>
+          <figcaption>Recovery from an externally induced cap misalignment.</figcaption>
+        </figure>
+        <figure data-optional-media hidden>
+          <div class="standalone-video" data-video="" data-title="Recovery after pulling the syringe plunger out">
+            <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Syringe perturbation</strong></div>
+          </div>
+          <figcaption>Recovery after the plunger is pulled out.</figcaption>
+        </figure>
+        <figure data-optional-media hidden>
+          <div class="standalone-video" data-video="" data-title="Bottle assembly at different hand tilts">
+            <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Bottle hand tilt</strong></div>
+          </div>
+          <figcaption>Bottle assembly at different hand tilts.</figcaption>
+        </figure>
+        <figure data-optional-media hidden>
+          <div class="standalone-video" data-video="" data-title="Syringe assembly at different hand tilts">
+            <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Syringe hand tilt</strong></div>
+          </div>
+          <figcaption>Syringe assembly at different hand tilts.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="limitations-heading">
+      <h2 id="limitations-heading">Limitations &amp; Future Work</h2>
+      <p>The current setting starts with objects already in the hand; it does not include picking up multiple objects and arranging them for assembly. Some experiments require initial support until the policy establishes contact. The task suite currently covers three plug-in assemblies, with more general geometries, threading, and friction-fit assembly left for future work.</p>
+      <p>Observed failures include unfavorable initial cap poses, fingers obstructing the insertion path, and unstable pinch configurations at certain hand tilts. Differences between simulated contact and real soft finger pads remain a source of sim-to-real error.</p>
+      <div class="standalone-video" data-video="" data-title="Representative in-hand assembly failure cases" data-optional-media hidden>
+        <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Failure cases</strong></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="bibtex-heading">
+      <h2 id="bibtex-heading">BibTeX</h2>
+      <!-- 目前为匿名稿的引用信息；正式作者、发表信息和 arXiv 标识可后续更新。 -->
+      <pre><code>@misc{anonymous2026assembling,
+  title  = {Assembling Two Parts in One Hand},
+  author = {{Anonymous Author(s)}},
+  year   = {2026},
+  note   = {Manuscript},
+  url    = {https://ltbgbird.github.io/in-hand-assembly-page/}
+}</code></pre>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Layout inspired by <a href="https://toruowo.github.io/peel/">How to Peel with a Knife</a>.</p>
+  </footer>
+</body>
+</html>
