@@ -3,191 +3,161 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#191c1c">
   <title>Assembling Two Parts in One Hand</title>
-  <meta name="description" content="In-hand assembly with a single dexterous hand: reinforcement learning, functional finger coordination, and zero-shot sim-to-real transfer across Bottle, Syringe, and Marker tasks.">
+  <meta name="author" content="Liuao Pei, Tianyue Wu, Hui Zhang, Ping Luo, Jie Song">
+  <meta name="description" content="A single dexterous hand learns to align and assemble two parts. Explore real-world Bottle, Syringe, and Marker experiments, perturbation recovery, and assembly at different hand tilts.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Assembling Two Parts in One Hand">
-  <meta property="og:description" content="A single dexterous hand learns to align and assemble two parts across Bottle, Syringe, and Marker tasks.">
+  <meta property="og:description" content="Fine finger coordination for in-hand assembly. Trained in simulation, transferred to the real world.">
   <meta property="og:url" content="https://ltbgbird.github.io/in-hand-assembly-page/">
+  <meta property="og:image" content="https://ltbgbird.github.io/in-hand-assembly-page/assets/images/hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://ltbgbird.github.io/in-hand-assembly-page/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="preload" href="assets/images/hero.jpg" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="assets/style.css?v=20260910-author-links">
   <script src="assets/main.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <!-- 封面：在 assets/style.css 的 --hero-image 处填入自己的封面图片路径。 -->
-  <header class="hero">
-    <div class="hero-content">
-      <h1>Assembling Two Parts<br>in One Hand</h1>
-      <p class="hero-subtitle">Learning fine finger coordination for in-hand assembly</p>
-      <!-- 当前署名沿用用户提供的匿名稿。获得正式作者和单位后替换此处。 -->
-      <p class="authors"><span>Anonymous Author(s)</span></p>
-      <nav class="paper-links" aria-label="Paper resources">
-        <a class="resource-link" href="assets/papers/paper.pdf" target="_blank" rel="noopener noreferrer">
-          <span aria-hidden="true">▤</span> Paper (PDF)
-        </a>
-        <a class="resource-link" href="#results">
-          <span aria-hidden="true">↓</span> Results
-        </a>
-        <!-- 收到真实 arXiv、算法仓库和视频链接后，再添加对应按钮。 -->
-      </nav>
+  <header class="hero" id="top">
+    <div class="hero-media" aria-hidden="true">
+      <img class="hero-poster" src="assets/images/hero.jpg" width="1920" height="1080" alt="" fetchpriority="high">
+      <video id="hero-video" muted loop playsinline preload="none" data-video="assets/videos/hero.mp4" tabindex="-1"></video>
     </div>
+    <div class="hero-shade"></div>
+    <nav class="hero-nav" aria-label="Primary navigation">
+      <a class="wordmark" href="#top" aria-label="In-hand assembly home"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M5 7h17v17H5z" stroke="currentColor" stroke-width="2"/><path d="M14 16h17v17H14z" fill="currentColor"/></svg><span>IN-HAND<br>ASSEMBLY</span></a>
+      <div class="hero-nav-links"><a href="#experiments">Experiments</a><a href="#method">Method</a><a href="#results">Results</a></div>
+    </nav>
+    <div class="hero-content">
+      <p class="eyebrow hero-eyebrow"><span></span> Learning fine finger coordination</p>
+      <h1>Assembling<br>Two Parts<br><span>in One Hand</span></h1>
+      <p class="hero-summary">A single dexterous hand.<br>Two interacting objects. Coordinated assembly.</p>
+      <!-- Author order, affiliations, and contribution notes: 2609.10137v1.pdf, page 1. -->
+      <div class="paper-authors" data-paper-authors aria-label="Authors and affiliations">
+        <p class="author-list">
+          <span>Liuao Pei<sup>1,2,*</sup></span>
+          <span><a href="https://tianyueh8erobot.github.io/" target="_blank" rel="noopener noreferrer">Tianyue Wu</a><sup>1,2,*</sup></span>
+          <span><a href="https://zdchan.github.io/" target="_blank" rel="noopener noreferrer">Hui Zhang</a><sup>4</sup></span>
+          <span><a href="https://luoping.me/" target="_blank" rel="noopener noreferrer">Ping Luo</a><sup>1,†</sup></span>
+          <span><a href="https://facultyprofiles.hkust-gz.edu.cn/faculty-personal-page/SONG-Jie/jsongroas" target="_blank" rel="noopener noreferrer">Jie Song</a><sup>2,3,†</sup></span>
+        </p>
+        <ul class="author-affiliations">
+          <li><sup>1</sup>The University of Hong Kong</li>
+          <li><sup>2</sup>The Hong Kong University of Science and Technology (Guangzhou)</li>
+          <li><sup>3</sup>The Hong Kong University of Science and Technology</li>
+          <li><sup>4</sup>ETH Zurich</li>
+        </ul>
+        <p class="author-notes"><span><sup>*</sup>Equal contribution. The first two authors are listed in alphabetical order.</span><span><sup>†</sup>Corresponding authors.</span></p>
+      </div>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#experiments">Explore experiments <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="button button-outline" href="assets/papers/paper.pdf" target="_blank" rel="noopener">Paper <span class="button-note">PDF</span> <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="button button-outline" href="https://ltbgbird.github.io/in-hand-assembly-page/" target="_blank" rel="noopener noreferrer">Code (coming soon) <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+    <div class="hero-bottom"><a class="scroll-cue" href="#main"><span class="scroll-line"></span> A closer look at dexterity</a><button class="hero-toggle" type="button" aria-controls="hero-video" aria-label="Play background video" hidden><span data-toggle-icon aria-hidden="true">▶</span><span data-toggle-text>Play background</span></button></div>
   </header>
-
-  <main id="main" class="content">
-    <section class="section teaser" aria-labelledby="teaser-heading">
-      <h2 id="teaser-heading">Two parts, coordinated within a single hand</h2>
-      <p class="lead">A single dexterous hand stabilizes, aligns, and assembles two interacting objects. Policies learned entirely in simulation transfer to real hardware using a single camera and historical proprioception.</p>
-      <!-- 空媒体会保持隐藏。填入任意 data-src 后，这一组会自动显示。 -->
-      <div class="video-selector" data-video-selector data-optional-media hidden>
-        <div class="media-stage" data-stage>
-          <video hidden controls playsinline muted loop preload="metadata" aria-label="In-hand assembly demonstrations"></video>
-          <div class="placeholder" data-placeholder role="status" aria-live="polite">
-            <span class="play-symbol" aria-hidden="true">▷</span>
-            <strong data-placeholder-title>Bottle</strong>
-            <span data-placeholder-note>Demonstration video</span>
-          </div>
-        </div>
-        <div class="video-options" role="group" aria-label="Choose an assembly task">
-          <button type="button" class="video-option" data-src="" aria-pressed="true">Bottle</button>
-          <button type="button" class="video-option" data-src="" aria-pressed="false">Syringe</button>
-          <button type="button" class="video-option" data-src="" aria-pressed="false">Marker</button>
-        </div>
-      </div>
+  <nav class="section-nav" aria-label="Page sections"><div class="section-nav-inner"><a class="section-brand" href="#top">IN-HAND ASSEMBLY<span class="brand-dot"></span></a><div class="section-links"><a href="#experiments">Tasks</a><a href="#recovery">Recovery</a><a href="#tilts">Hand tilts</a><a href="#method">Method</a><a href="#results">Results</a></div></div></nav>
+  <main id="main">
+    <section class="intro container" aria-labelledby="intro-heading">
+      <p class="eyebrow">The idea</p><h2 id="intro-heading">Two objects. Five fingers.<br>One coordinated motion.</h2>
+      <p class="intro-copy">In-hand assembly asks a single hand to hold, align, and mate two objects. We learn this fine coordination through reinforcement learning in simulation, shaping different fingers into distinct yet cooperative roles.</p>
+      <div class="research-facts" aria-label="Research highlights"><div><span class="fact-number">01</span><span>Trained in simulation</span></div><div><span class="fact-number">02</span><span>Zero-shot transfer to hardware</span></div><div><span class="fact-number">03</span><span>Single-camera feedback</span></div></div>
+      <details class="abstract"><summary>Read the abstract <span aria-hidden="true">+</span></summary><p>A hallmark of human dexterity is the cooperative use of fingers, where different fingers take on distinct yet coordinated roles to accomplish fine manipulation, such as capping a pen with the hand that holds it. We study this finger-level coordination through in-hand assembly: mating two rigid objects within a single dexterous hand, with no second arm and no fixture. We present a reinforcement learning formulation to solve this problem in a unified framework, which is driven by a goal relative pose between the two parts. Finger coordination is shaped by a function-based auxiliary reward and regularized toward a single human reference pose, while domain randomization and a fusion of historical proprioception and object observation confer robustness to occlusion-induced estimation noise. The same recipe solves three different assembly tasks (Bottle, Syringe, and Marker). Trained purely in simulation, the policies transfer zero-shot to hardware with a single camera, demonstrating robustness to state-estimation errors caused by occlusion. Our experiments also reveal that in-hand assembly places demands on hand morphology, as a benchmark for modern robotic hand systems.</p></details>
     </section>
-
-    <section class="section" aria-labelledby="abstract-heading">
-      <h2 id="abstract-heading">Abstract</h2>
-      <p>A hallmark of human dexterity is the cooperative use of fingers, where different fingers take on distinct yet coordinated roles to accomplish fine manipulation, such as capping a pen with the hand that holds it. We study this finger-level coordination through in-hand assembly: mating two rigid objects within a single dexterous hand, with no second arm and no fixture. We present a reinforcement learning formulation to solve this problem in a unified framework, which is driven by a goal relative pose between the two parts. Finger coordination is shaped by a function-based auxiliary reward and regularized toward a single human reference pose, while domain randomization and a fusion of historical proprioception and object observation confer robustness to occlusion-induced estimation noise. The same recipe solves three different assembly tasks (Bottle, Syringe, and Marker). Trained purely in simulation, the policies transfer zero-shot to hardware with a single camera, demonstrating robustness to state-estimation errors caused by occlusion. Our experiments also reveal that in-hand assembly places demands on hand morphology, as a benchmark for modern robotic hand systems.</p>
+    <section class="section container" id="experiments" aria-labelledby="experiments-heading">
+      <div class="section-heading"><p class="eyebrow">01 / Real-world experiments</p><h2 id="experiments-heading">Three tasks.<br>One coordinated hand.</h2><p>Each task requires a different combination of grasping, alignment, and insertion. All policies are trained in simulation and transferred zero-shot to the real hand.</p></div>
+      <article class="experiment" id="bottle" aria-labelledby="bottle-heading">
+  <div class="experiment-heading"><div><p class="experiment-index">EXPERIMENT 01</p><h3 id="bottle-heading">Bottle</h3><p class="experiment-subtitle">Align, then insert.</p></div><p class="experiment-description">The hand supports the bottle while the thumb and index finger align its cap. Coordinated finger motion brings the two parts together.</p></div>
+  <figure class="experiment-figure"><div class="video-shell">
+    <video controls playsinline muted loop preload="none" width="1920" height="1080" data-video="assets/videos/bottle.mp4" data-poster="assets/images/bottle.jpg" aria-label="Bottle-cap assembly · Single trials and repeated executions"></video>
+    <p class="media-error" role="status" hidden>This video could not be loaded. <a href="assets/videos/bottle.mp4">Open the video directly <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+    <noscript><p class="noscript-media"><a href="assets/videos/bottle.mp4">Watch Bottle <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></noscript>
+  </div><figcaption><span>Bottle-cap assembly · Single trials and repeated executions</span><span class="duration">0:20</span></figcaption></figure>
+</article>
+<article class="experiment" id="syringe" aria-labelledby="syringe-heading">
+  <div class="experiment-heading"><div><p class="experiment-index">EXPERIMENT 02</p><h3 id="syringe-heading">Syringe</h3><p class="experiment-subtitle">Every finger has a role.</p></div><p class="experiment-description">The fingers stabilize the barrel and guide the plunger. The ring and little fingers help complete the insertion.</p></div>
+  <figure class="experiment-figure"><div class="video-shell">
+    <video controls playsinline muted loop preload="none" width="1920" height="1080" data-video="assets/videos/syringe.mp4" data-poster="assets/images/syringe.jpg" aria-label="Syringe insertion · Single trials and repeated executions"></video>
+    <p class="media-error" role="status" hidden>This video could not be loaded. <a href="assets/videos/syringe.mp4">Open the video directly <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+    <noscript><p class="noscript-media"><a href="assets/videos/syringe.mp4">Watch Syringe <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></noscript>
+  </div><figcaption><span>Syringe insertion · Single trials and repeated executions</span><span class="duration">0:20</span></figcaption></figure>
+</article>
+<article class="experiment" id="marker" aria-labelledby="marker-heading">
+  <div class="experiment-heading"><div><p class="experiment-index">EXPERIMENT 03</p><h3 id="marker-heading">Marker</h3><p class="experiment-subtitle">Precise motion in a small workspace.</p></div><p class="experiment-description">The hand pinches and aligns the cap with the marker, then seats it while supporting both parts within the same hand.</p></div>
+  <figure class="experiment-figure"><div class="video-shell">
+    <video controls playsinline muted loop preload="none" width="1920" height="1080" data-video="assets/videos/marker.mp4" data-poster="assets/images/marker.jpg" aria-label="Marker-cap fitting · Single trials and repeated executions"></video>
+    <p class="media-error" role="status" hidden>This video could not be loaded. <a href="assets/videos/marker.mp4">Open the video directly <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+    <noscript><p class="noscript-media"><a href="assets/videos/marker.mp4">Watch Marker <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></noscript>
+  </div><figcaption><span>Marker-cap fitting · Single trials and repeated executions</span><span class="duration">0:18</span></figcaption></figure>
+</article>
     </section>
-
-    <section class="section" aria-labelledby="overview-heading">
-      <h2 id="overview-heading">Overview</h2>
-      <p>In-hand assembly requires one hand to support both objects while bringing them into a target relative pose. The task family includes bottle-cap assembly, syringe insertion, and marker-cap fitting. Each task demands precise alignment and coordinated contact across multiple fingers.</p>
-      <p>Our real-world system uses a 22-DoF Sharpa Wave Hand, mounted on a Franka Research 3 arm, and a single RealSense D435 camera. FoundationPose tracks the objects, while a recurrent policy combines their estimated poses with the hand's joint-angle history to control assembly.</p>
-      <figure data-optional-media hidden>
-        <!-- 例如 data-image="assets/images/overview.png"；填写路径后自动显示。 -->
-        <div class="figure-slot" data-image="" data-alt="Real-world Bottle, Syringe, and Marker assembly tasks performed by a single dexterous hand">
-          <div class="placeholder figure-placeholder"><strong>Overview figure</strong></div>
-        </div>
-        <figcaption>Real-world in-hand assembly across Bottle, Syringe, and Marker tasks.</figcaption>
-      </figure>
+    <div class="section-band"><section class="section container" id="recovery" aria-labelledby="recovery-heading">
+      <div class="section-heading"><p class="eyebrow">02 / Closed-loop recovery</p><h2 id="recovery-heading">Responding to<br>the unexpected.</h2><p>Feedback lets the hand respond when an external perturbation changes the objects' relative pose. These experiments show recovery from two kinds of disturbance.</p></div>
+      <article class="experiment" id="bottle-recovery" aria-labelledby="bottle-recovery-heading">
+  <div class="experiment-heading"><div><p class="experiment-index">EXPERIMENT 04</p><h3 id="bottle-recovery-heading">Recovering the cap</h3><p class="experiment-subtitle">Bottle · External perturbation</p></div><p class="experiment-description">After an external push disrupts the cap's alignment, the policy uses the index finger to correct its pose and continue assembly.</p></div>
+  <figure class="experiment-figure"><div class="video-shell">
+    <video controls playsinline muted loop preload="none" width="1920" height="1080" data-video="assets/videos/bottle-recovery.mp4" data-poster="assets/images/bottle-recovery.jpg" aria-label="Recovery from externally induced bottle-cap misalignment"></video>
+    <p class="media-error" role="status" hidden>This video could not be loaded. <a href="assets/videos/bottle-recovery.mp4">Open the video directly <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+    <noscript><p class="noscript-media"><a href="assets/videos/bottle-recovery.mp4">Watch Recovering the cap <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></noscript>
+  </div><figcaption><span>Recovery from externally induced bottle-cap misalignment</span><span class="duration">0:30</span></figcaption></figure>
+</article>
+<article class="experiment" id="syringe-recovery" aria-labelledby="syringe-recovery-heading">
+  <div class="experiment-heading"><div><p class="experiment-index">EXPERIMENT 05</p><h3 id="syringe-recovery-heading">Restoring the plunger</h3><p class="experiment-subtitle">Syringe · External perturbation</p></div><p class="experiment-description">When the plunger is pulled out against the hand's grasp, closed-loop control brings it back to the assembled state.</p></div>
+  <figure class="experiment-figure"><div class="video-shell">
+    <video controls playsinline muted loop preload="none" width="1920" height="1080" data-video="assets/videos/syringe-recovery.mp4" data-poster="assets/images/syringe-recovery.jpg" aria-label="Recovery after the syringe plunger is pulled out"></video>
+    <p class="media-error" role="status" hidden>This video could not be loaded. <a href="assets/videos/syringe-recovery.mp4">Open the video directly <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+    <noscript><p class="noscript-media"><a href="assets/videos/syringe-recovery.mp4">Watch Restoring the plunger <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></noscript>
+  </div><figcaption><span>Recovery after the syringe plunger is pulled out</span><span class="duration">0:29</span></figcaption></figure>
+</article>
+    </section></div>
+    <section class="section container" id="tilts" aria-labelledby="tilts-heading">
+      <div class="section-heading"><p class="eyebrow">03 / Changing orientation</p><h2 id="tilts-heading">A different angle.<br>The same assembly task.</h2><p>With wrist orientation included in its observations, a policy trained across hand tilts adapts to the changing direction of gravity.</p></div>
+      <article class="experiment" id="bottle-tilt" aria-labelledby="bottle-tilt-heading">
+  <div class="experiment-heading"><div><p class="experiment-index">EXPERIMENT 06</p><h3 id="bottle-tilt-heading">Bottle at different tilts</h3><p class="experiment-subtitle">Adapting to gravity</p></div><p class="experiment-description">A single policy trained across wrist tilts adjusts finger coordination as the hand's orientation changes.</p></div>
+  <figure class="experiment-figure"><div class="video-shell">
+    <video controls playsinline muted loop preload="none" width="1920" height="1080" data-video="assets/videos/bottle-tilt.mp4" data-poster="assets/images/bottle-tilt.jpg" aria-label="Bottle assembly at different wrist orientations"></video>
+    <p class="media-error" role="status" hidden>This video could not be loaded. <a href="assets/videos/bottle-tilt.mp4">Open the video directly <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+    <noscript><p class="noscript-media"><a href="assets/videos/bottle-tilt.mp4">Watch Bottle at different tilts <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></noscript>
+  </div><figcaption><span>Bottle assembly at different wrist orientations</span><span class="duration">0:21</span></figcaption></figure>
+</article>
+<article class="experiment" id="syringe-tilt" aria-labelledby="syringe-tilt-heading">
+  <div class="experiment-heading"><div><p class="experiment-index">EXPERIMENT 07</p><h3 id="syringe-tilt-heading">Syringe at different tilts</h3><p class="experiment-subtitle">Coordinated insertion across orientations</p></div><p class="experiment-description">The syringe policy also operates across different hand tilts, using wrist orientation as an additional observation.</p></div>
+  <figure class="experiment-figure"><div class="video-shell">
+    <video controls playsinline muted loop preload="none" width="1920" height="1080" data-video="assets/videos/syringe-tilt.mp4" data-poster="assets/images/syringe-tilt.jpg" aria-label="Syringe assembly at different wrist orientations"></video>
+    <p class="media-error" role="status" hidden>This video could not be loaded. <a href="assets/videos/syringe-tilt.mp4">Open the video directly <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+    <noscript><p class="noscript-media"><a href="assets/videos/syringe-tilt.mp4">Watch Syringe at different tilts <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></noscript>
+  </div><figcaption><span>Syringe assembly at different wrist orientations</span><span class="duration">0:30</span></figcaption></figure>
+</article>
+      <p class="section-note">The demonstrated orientations are successful examples. Certain tilts remain challenging because unstable pinch configurations and differences in simulated contact can prevent assembly.</p>
     </section>
-
-    <section class="section" aria-labelledby="method-heading">
-      <h2 id="method-heading">Method</h2>
-      <p>We formulate assembly as a partially observable reinforcement learning problem driven by the relative pose between two parts. A shared observation, action, and reward formulation is used across the three tasks.</p>
-      <ol class="method-steps">
-        <li><strong>Relative-pose goal reaching.</strong> Position and axis-alignment rewards guide the held part toward the assembly target on the other part.</li>
-        <li><strong>Functional finger coordination.</strong> Auxiliary rewards encourage the thumb and index finger to manipulate one part while the remaining fingers support and coordinate the other. A single human reference snapshot provides an initialization and a nominal hand-pose prior.</li>
-        <li><strong>Robust closed-loop control.</strong> Recurrent policies combine estimated object states with proprioceptive history. Domain randomization and a depth-consistency gate help address noisy observations caused by occlusion during deployment.</li>
-      </ol>
-      <figure data-optional-media hidden>
-        <div class="figure-slot" data-image="" data-alt="Overview of the in-hand assembly reinforcement learning pipeline">
-          <div class="placeholder figure-placeholder"><strong>Method figure</strong></div>
-        </div>
-        <figcaption>Simulation-based reinforcement learning with finger-function rewards, a human pose prior, and observation randomization.</figcaption>
-      </figure>
+    <div class="section-band"><section class="section container method" id="method" aria-labelledby="method-heading">
+      <div class="section-heading"><p class="eyebrow">04 / Method</p><h2 id="method-heading">Learning how<br>fingers work together.</h2><p>A shared reinforcement learning formulation connects task geometry, functional finger roles, and observation history.</p></div>
+      <div class="method-step"><span class="step-number">01</span><div><h3>A relative-pose goal</h3><p>Each task brings one part to a target pose relative to the other. Position and axis-alignment rewards guide precise alignment and insertion across all three geometries.</p></div></div>
+      <figure class="paper-figure"><a href="assets/images/task-geometry.jpg" target="_blank" rel="noopener" aria-label="Open figure at full resolution"><img src="assets/images/task-geometry.jpg" width="2400" height="488" loading="lazy" decoding="async" alt="Sharpa hand dimensions and the Bottle, Syringe, and Marker geometries, with reference and goal points used to define assembly rewards."></a><figcaption>Task geometries and reference points · Figure 2 in the paper<span>Click to enlarge <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></figcaption></figure>
+      <div class="method-step"><span class="step-number">02</span><div><h3>Functional finger coordination</h3><p>The thumb and index finger manipulate one part while the remaining fingers support and adjust the other. Auxiliary rewards encourage these roles, and a single human reference snapshot provides an initial state and a nominal pose prior.</p></div></div>
+      <figure class="paper-figure"><a href="assets/images/reference-snapshot.jpg" target="_blank" rel="noopener" aria-label="Open figure at full resolution"><img src="assets/images/reference-snapshot.jpg" width="2400" height="597" loading="lazy" decoding="async" alt="A human Bottle assembly reference snapshot and three randomized initial robot-hand configurations derived from it."></a><figcaption>From one human snapshot to randomized initial states · Figure 3<span>Click to enlarge <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></figcaption></figure>
+      <div class="method-step"><span class="step-number">03</span><div><h3>Robust closed-loop execution</h3><p>A recurrent policy combines estimated object poses with joint-angle history. Observation randomization during training and a depth-consistency gate during tracking help the system cope with noisy estimates and occlusion.</p></div></div>
+      <div class="system-strip"><span>Real-world setup</span><p>22-DoF Sharpa Wave Hand <b>·</b> Franka Research 3 <b>·</b> RealSense D435 <b>·</b> FoundationPose</p></div>
+    </section></div>
+    <section class="section container results" id="results" aria-labelledby="results-heading">
+      <div class="section-heading"><p class="eyebrow">05 / Evaluation</p><h2 id="results-heading">Feedback improves<br>assembly.</h2><p>We compare closed-loop control with open-loop replay of successful simulation trajectories, using 20 consecutive real-world trials per task and method.</p></div>
+      <div class="table-scroll" role="region" aria-label="Real-world success counts; scroll horizontally on smaller screens" tabindex="0"><table><caption>Successful trials out of 20 <span>Table 1 in the paper</span></caption>
+        <thead><tr><th scope="col" rowspan="2">Task</th><th scope="colgroup" colspan="2" class="ours">Closed-loop (ours)</th><th scope="colgroup" colspan="2">Open-loop replay</th></tr><tr><th scope="col" class="ours">Alignment</th><th scope="col" class="ours">Assembly</th><th scope="col">Alignment</th><th scope="col">Assembly</th></tr></thead>
+        <tbody><tr><th scope="row">Bottle</th><td class="ours">18 / 20</td><td class="ours result-highlight">15 / 20</td><td>2 / 20</td><td>2 / 20</td></tr><tr><th scope="row">Syringe</th><td class="ours">18 / 20</td><td class="ours result-highlight">17 / 20</td><td>1 / 20</td><td>0 / 20</td></tr><tr><th scope="row">Marker</th><td class="ours">16 / 20</td><td class="ours result-highlight">16 / 20</td><td>0 / 20</td><td>0 / 20</td></tr></tbody>
+      </table></div>
+      <p class="table-note"><strong>Alignment:</strong> insertion depth greater than 1 cm. <strong>Assembly:</strong> final insertion depth within 1 cm of the target.</p>
+      <div class="morphology-heading"><h3>A benchmark for hand morphology</h3><p>Simulation experiments on the Syringe task show how finger count, joint ranges, and degrees of freedom affect alignment and insertion. The same learning pipeline is evaluated across four robotic hands.</p></div>
+      <figure class="paper-figure"><a href="assets/images/hand-morphology.jpg" target="_blank" rel="noopener" aria-label="Open figure at full resolution"><img src="assets/images/hand-morphology.jpg" width="2400" height="551" loading="lazy" decoding="async" alt="Syringe reference-point errors for Sharpa, Wuji, Allegro, and XHand in simulation. Sharpa and Wuji achieve low alignment and insertion errors; Allegro and XHand have larger insertion errors."></a><figcaption>Reference-point errors for four hand morphologies · Figure 4<span>Click to enlarge <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></figcaption></figure>
+      <p class="figure-note">Yellow points are error samples; the paper reports 128 samples. Errors are measured on trials that do not terminate early.</p>
     </section>
-
-    <section id="results" class="section" aria-labelledby="results-heading">
-      <h2 id="results-heading">Real-World Results</h2>
-      <p>We compare the closed-loop policy with open-loop replay of successful simulation trajectories in 20 consecutive real-world trials per task and method. Feedback substantially improves both alignment and completed assembly.</p>
-      <div class="table-scroll" role="region" aria-label="Real-world success counts" tabindex="0">
-        <table>
-          <caption>Successful trials out of 20 · Table 1 in the paper</caption>
-          <thead>
-            <tr>
-              <th scope="col" rowspan="2">Task</th>
-              <th scope="colgroup" colspan="2">Closed-loop (ours)</th>
-              <th scope="colgroup" colspan="2">Open-loop replay</th>
-            </tr>
-            <tr>
-              <th scope="col">Alignment</th><th scope="col">Assembly</th>
-              <th scope="col">Alignment</th><th scope="col">Assembly</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Bottle</th><td>18 / 20</td><td class="result-highlight">15 / 20</td><td>2 / 20</td><td>2 / 20</td></tr>
-            <tr><th scope="row">Syringe</th><td>18 / 20</td><td class="result-highlight">17 / 20</td><td>1 / 20</td><td>0 / 20</td></tr>
-            <tr><th scope="row">Marker</th><td>16 / 20</td><td class="result-highlight">16 / 20</td><td>0 / 20</td><td>0 / 20</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="caption">Alignment: insertion depth greater than 1 cm. Assembly: final insertion depth within 1 cm of the target.</p>
-      <div class="video-selector comparison-media" data-video-selector data-optional-media hidden>
-        <div class="media-stage" data-stage>
-          <video hidden controls playsinline muted loop preload="metadata" aria-label="Closed-loop and open-loop comparison"></video>
-          <div class="placeholder" data-placeholder role="status" aria-live="polite">
-            <span class="play-symbol" aria-hidden="true">▷</span><strong data-placeholder-title>Bottle</strong><span data-placeholder-note>Comparison video</span>
-          </div>
-        </div>
-        <div class="video-options" role="group" aria-label="Choose a comparison task">
-          <button type="button" class="video-option" data-src="" aria-pressed="true">Bottle</button>
-          <button type="button" class="video-option" data-src="" aria-pressed="false">Syringe</button>
-          <button type="button" class="video-option" data-src="" aria-pressed="false">Marker</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="robustness-heading">
-      <h2 id="robustness-heading">Robustness and Hand Morphology</h2>
-      <p>We evaluate policies under random observation noise and systematic offsets in simulation. Real-world tests include externally induced cap misalignment, pulling the syringe plunger out during execution, and assembly at different hand tilts. These experiments demonstrate recovery from some unexpected state deviations, while also exposing limits under large estimation offsets and challenging grasp configurations.</p>
-      <p>In-hand assembly also probes the capabilities of different robotic hands. Experiments on Sharpa, Wuji, Allegro, and XHand in simulation show that finger count, joint ranges, and available degrees of freedom affect precise alignment and deep insertion.</p>
-      <div class="video-grid" data-media-grid hidden>
-        <figure data-optional-media hidden>
-          <div class="standalone-video" data-video="" data-title="Recovery from bottle-cap misalignment">
-            <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Bottle perturbation</strong></div>
-          </div>
-          <figcaption>Recovery from an externally induced cap misalignment.</figcaption>
-        </figure>
-        <figure data-optional-media hidden>
-          <div class="standalone-video" data-video="" data-title="Recovery after pulling the syringe plunger out">
-            <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Syringe perturbation</strong></div>
-          </div>
-          <figcaption>Recovery after the plunger is pulled out.</figcaption>
-        </figure>
-        <figure data-optional-media hidden>
-          <div class="standalone-video" data-video="" data-title="Bottle assembly at different hand tilts">
-            <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Bottle hand tilt</strong></div>
-          </div>
-          <figcaption>Bottle assembly at different hand tilts.</figcaption>
-        </figure>
-        <figure data-optional-media hidden>
-          <div class="standalone-video" data-video="" data-title="Syringe assembly at different hand tilts">
-            <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Syringe hand tilt</strong></div>
-          </div>
-          <figcaption>Syringe assembly at different hand tilts.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="limitations-heading">
-      <h2 id="limitations-heading">Limitations &amp; Future Work</h2>
-      <p>The current setting starts with objects already in the hand; it does not include picking up multiple objects and arranging them for assembly. Some experiments require initial support until the policy establishes contact. The task suite currently covers three plug-in assemblies, with more general geometries, threading, and friction-fit assembly left for future work.</p>
-      <p>Observed failures include unfavorable initial cap poses, fingers obstructing the insertion path, and unstable pinch configurations at certain hand tilts. Differences between simulated contact and real soft finger pads remain a source of sim-to-real error.</p>
-      <div class="standalone-video" data-video="" data-title="Representative in-hand assembly failure cases" data-optional-media hidden>
-        <div class="placeholder"><span class="play-symbol" aria-hidden="true">▷</span><strong>Failure cases</strong></div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="bibtex-heading">
-      <h2 id="bibtex-heading">BibTeX</h2>
-      <!-- 目前为匿名稿的引用信息；正式作者、发表信息和 arXiv 标识可后续更新。 -->
-      <pre><code>@misc{anonymous2026assembling,
-  title  = {Assembling Two Parts in One Hand},
-  author = {{Anonymous Author(s)}},
-  year   = {2026},
-  note   = {Manuscript},
-  url    = {https://ltbgbird.github.io/in-hand-assembly-page/}
-}</code></pre>
-    </section>
+    <section class="limitations container" aria-labelledby="limitations-heading"><p class="eyebrow">Looking ahead</p><div class="limitations-layout"><h2 id="limitations-heading">Where the task<br>can go next.</h2><div><p>The current task begins with both objects already in the hand. Some experiments require initial support until the policy establishes contact; picking up and arranging the parts is outside this setting.</p><p>Unfavorable initial cap poses, obstructing fingers, and unstable pinch configurations can cause failures. Differences between rigid-body simulation and real soft finger pads remain a challenge.</p><p>Extending beyond these three plug-in assemblies to more general geometries, threading, and friction-fit assembly is left for future work.</p></div></div></section>
+    <!-- Add verified BibTeX here and remove hidden when official author metadata is available. -->
+    <section class="section container citation" id="citation" aria-labelledby="citation-heading" hidden><h2 id="citation-heading">Citation</h2><pre><code data-bibtex></code></pre></section>
   </main>
-
-  <footer class="footer">
-    <p>Layout inspired by <a href="https://toruowo.github.io/peel/">How to Peel with a Knife</a>.</p>
-  </footer>
+  <footer class="footer container"><a class="footer-title" href="#top">Assembling Two Parts in One Hand<span class="brand-dot"></span></a><a href="assets/papers/paper.pdf" target="_blank" rel="noopener">Read the paper <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a href="#top" class="back-top">Back to top ↑</a></footer>
 </body>
 </html>

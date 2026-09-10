@@ -1,96 +1,133 @@
-/* 无需 npm / jQuery；本文件只负责视频切换和可选媒体加载。 */
 "use strict";
 
-const revealMedia = (element) => {
-  const optional = element.closest("[data-optional-media]");
-  if (optional) optional.hidden = false;
-  const grid = element.closest("[data-media-grid]");
-  if (grid) grid.hidden = false;
-};
+// Media paths remain declarative in index.html. No build step or remote requests.
+const experimentVideos = [...document.querySelectorAll(".experiment video[data-video]")];
 
-document.querySelectorAll("[data-video-selector]").forEach((box) => {
-  const video = box.querySelector("video");
-  const placeholder = box.querySelector("[data-placeholder]");
-  const title = box.querySelector("[data-placeholder-title]");
-  const note = box.querySelector("[data-placeholder-note]");
-  const buttons = [...box.querySelectorAll(".video-option")];
-  const originalNote = note.textContent;
-  const available = buttons.filter((button) => button.dataset.src.trim());
-  if (!available.length) return;
-  buttons.forEach((button) => { button.hidden = !button.dataset.src.trim(); });
-  revealMedia(box);
-
-  const select = (button, shouldPlay = false) => {
-    video.pause();
-    buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-    title.textContent = button.textContent;
-    note.textContent = originalNote;
-    const src = button.dataset.src.trim();
-    placeholder.hidden = Boolean(src);
-    video.hidden = !src;
-    if (!src) {
-      video.removeAttribute("src");
-      video.load();
-      return;
-    }
-    video.src = src;
-    video.load();
-    if (shouldPlay) video.play().catch(() => {});
-  };
-
-  buttons.forEach((button) => button.addEventListener("click", () => select(button, true)));
-  video.addEventListener("error", () => {
-    if (!video.getAttribute("src")) return;
-    video.hidden = true;
-    placeholder.hidden = false;
-    note.textContent = "This video could not be loaded.";
-  });
-  const initial = available.find((button) => button.getAttribute("aria-pressed") === "true") || available[0];
-  if (initial) select(initial);
-});
-
-document.querySelectorAll("[data-image]").forEach((slot) => {
-  const src = slot.dataset.image.trim();
-  if (!src) return;
-  const placeholder = slot.firstElementChild;
-  const image = new Image();
-  image.alt = slot.dataset.alt || "Research figure";
-  image.loading = "lazy";
-  image.decoding = "async";
-  image.addEventListener("error", () => {
-    placeholder.querySelector("strong").textContent = "This figure could not be loaded.";
-    slot.replaceChildren(placeholder);
-  });
-  image.src = src;
-  slot.replaceChildren(image);
-  revealMedia(slot);
-});
-
-document.querySelectorAll("[data-video]").forEach((slot) => {
-  const src = slot.dataset.video.trim();
-  if (!src) return;
-  const placeholder = slot.querySelector(".placeholder");
-  const video = document.createElement("video");
-  video.controls = true;
-  video.playsInline = true;
+function loadExperiment(video) {
+  if (video.dataset.loaded) return;
+  video.dataset.loaded = "true";
+  video.poster = video.dataset.poster;
   video.muted = true;
-  video.loop = true;
   video.preload = "metadata";
-  video.setAttribute("aria-label", slot.dataset.title || "Research video");
+  video.src = video.dataset.video;
+  video.load();
+}
+
+experimentVideos.forEach((video) => {
   video.addEventListener("error", () => {
-    placeholder.querySelector("strong").textContent = "This video could not be loaded.";
-    slot.replaceChildren(placeholder);
+    video.closest(".video-shell").querySelector(".media-error").hidden = false;
   });
-  video.src = src;
-  slot.replaceChildren(video);
-  revealMedia(slot);
+  // An explicit play action also works before the proximity observer has run.
+  video.addEventListener("play", () => {
+    loadExperiment(video);
+    experimentVideos.forEach((other) => { if (other !== video) other.pause(); });
+  });
+  video.addEventListener("focus", () => loadExperiment(video));
 });
 
 if ("IntersectionObserver" in window) {
-  const observer = new IntersectionObserver((entries) => {
+  const loadObserver = new IntersectionObserver((entries) => {
     entries.forEach(({ target, isIntersecting }) => {
-      if (!isIntersecting) target.pause();
+      if (!isIntersecting) return;
+      loadExperiment(target);
+      loadObserver.unobserve(target);
     });
+  }, { rootMargin: "350px 0px" });
+  const pauseObserver = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => { if (!isIntersecting) target.pause(); });
   });
-  document.querySelectorAll("video").forEach((video) => observer.observe(video));
+  experimentVideos.forEach((video) => {
+    loadObserver.observe(video);
+    pauseObserver.observe(video);
+  });
+} else {
+  experimentVideos.forEach(loadExperiment);
 }
+
+const hero = document.getElementById("hero-video");
+const toggle = document.querySelector(".hero-toggle");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let wantsBackground = !reduceMotion.matches && !navigator.connection?.saveData;
+let heroInView = true;
+let heroFailed = false;
+
+function updateToggle() {
+  const playing = !hero.paused;
+  toggle.querySelector("[data-toggle-text]").textContent = playing ? "Pause background" : "Play background";
+  toggle.querySelector("[data-toggle-icon]").textContent = playing ? "Ⅱ" : "▶";
+  toggle.setAttribute("aria-label", playing ? "Pause background video" : "Play background video");
+}
+
+function syncBackground() {
+  if (!wantsBackground || !heroInView || document.hidden || heroFailed) {
+    hero.pause();
+    return;
+  }
+  if (!hero.getAttribute("src")) {
+    hero.muted = true;
+    hero.src = hero.dataset.video;
+    hero.load();
+  }
+  hero.play().then(() => {
+    if (!wantsBackground || !heroInView || document.hidden) hero.pause();
+  }).catch(() => {
+    // The poster and explicit play button remain usable when autoplay is blocked.
+    updateToggle();
+  });
+}
+
+toggle.hidden = false;
+toggle.addEventListener("click", () => {
+  wantsBackground = hero.paused;
+  syncBackground();
+});
+hero.addEventListener("playing", () => {
+  hero.classList.add("is-playing");
+  updateToggle();
+});
+hero.addEventListener("pause", updateToggle);
+hero.addEventListener("error", () => {
+  heroFailed = true;
+  hero.classList.remove("is-playing");
+  toggle.hidden = true;
+});
+reduceMotion.addEventListener("change", () => {
+  wantsBackground = !reduceMotion.matches && !navigator.connection?.saveData;
+  if (reduceMotion.matches) hero.classList.remove("is-playing");
+  syncBackground();
+});
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(([entry]) => {
+    heroInView = entry.isIntersecting && entry.intersectionRatio > 0.1;
+    syncBackground();
+  }, { threshold: [0, 0.1] }).observe(document.querySelector(".hero"));
+}
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) experimentVideos.forEach((video) => video.pause());
+  syncBackground();
+});
+syncBackground();
+
+// Keep the compact section navigation aligned with the reader's position.
+const sectionLinks = [...document.querySelectorAll(".section-links a")];
+const sections = sectionLinks.map((link) => document.querySelector(link.getAttribute("href")));
+let navScheduled = false;
+function updateNavigation() {
+  let active = null;
+  sections.forEach((section, index) => {
+    if (section.getBoundingClientRect().top <= 150) active = sectionLinks[index];
+  });
+  sectionLinks.forEach((link) => {
+    if (link === active) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
+  });
+  navScheduled = false;
+}
+window.addEventListener("scroll", () => {
+  if (!navScheduled) {
+    navScheduled = true;
+    requestAnimationFrame(updateNavigation);
+  }
+}, { passive: true });
+window.addEventListener("resize", updateNavigation);
+updateNavigation();

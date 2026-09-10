@@ -1,0 +1,80 @@
+{
+  "source": "/Users/bird/fachand_video/output/main 0604 3.mp4",
+  "fps": 25,
+  "experiments": [
+    {
+      "id": "bottle",
+      "startFrame": 235,
+      "endFrameExclusive": 724,
+      "duration": 19.56,
+      "posterOffsetSeconds": 4,
+      "video": "assets/videos/bottle.mp4",
+      "poster": "assets/images/bottle.jpg"
+    },
+    {
+      "id": "syringe",
+      "startFrame": 724,
+      "endFrameExclusive": 1216,
+      "duration": 19.68,
+      "posterOffsetSeconds": 9,
+      "video": "assets/videos/syringe.mp4",
+      "poster": "assets/images/syringe.jpg"
+    },
+    {
+      "id": "marker",
+      "startFrame": 1216,
+      "endFrameExclusive": 1657,
+      "duration": 17.64,
+      "posterOffsetSeconds": 3,
+      "video": "assets/videos/marker.mp4",
+      "poster": "assets/images/marker.jpg"
+    },
+    {
+      "id": "bottle-recovery",
+      "startFrame": 1657,
+      "endFrameExclusive": 2401,
+      "duration": 29.76,
+      "posterOffsetSeconds": 6,
+      "video": "assets/videos/bottle-recovery.mp4",
+      "poster": "assets/images/bottle-recovery.jpg"
+    },
+    {
+      "id": "syringe-recovery",
+      "startFrame": 2401,
+      "endFrameExclusive": 3118,
+      "duration": 28.68,
+      "posterOffsetSeconds": 13,
+      "video": "assets/videos/syringe-recovery.mp4",
+      "poster": "assets/images/syringe-recovery.jpg"
+    },
+    {
+      "id": "bottle-tilt",
+      "startFrame": 3118,
+      "endFrameExclusive": 3633,
+      "duration": 20.6,
+      "posterOffsetSeconds": 7,
+      "video": "assets/videos/bottle-tilt.mp4",
+      "poster": "assets/images/bottle-tilt.jpg"
+    },
+    {
+      "id": "syringe-tilt",
+      "startFrame": 3635,
+      "endFrameExclusive": 4373,
+      "duration": 29.52,
+      "posterOffsetSeconds": 10,
+      "video": "assets/videos/syringe-tilt.mp4",
+      "poster": "assets/images/syringe-tilt.jpg"
+    }
+  ],
+  "figures": {
+    "task-geometry": "Paper Figure 2",
+    "reference-snapshot": "Paper Figure 3",
+    "hand-morphology": "Paper Figure 4"
+  },
+  "hero": {
+    "source": "/Users/bird/fachand_ws/cover_v0910.mp4",
+    "fullClip": true,
+    "posterSeconds": 1.0,
+    "audio": false
+  }
+}
