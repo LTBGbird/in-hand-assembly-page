@@ -22,13 +22,15 @@ http://127.0.0.1:8000/in-hand-assembly-page/
 - `index.html`：英文文案、七项实验、论文图、结果表、链接。
 - `assets/style.css`：封面、灰白黄配色和响应式布局。
 - `assets/main.js`：视频按需加载、离屏暂停、封面播放控制及导航高亮。
-- `assets/papers/paper.pdf`：保留原论文文件。
+- `assets/papers/paper.pdf`：最终版 `2609.10137v1.pdf` 的原样副本。
 
 作者和单位依据项目父目录中的 `2609.10137v1.pdf` 第 1 页填写：Liuao Pei、Tianyue Wu、Hui Zhang、Ping Luo、Jie Song，保留原文顺序、单位编号、共同一作及通讯作者标记。前两位作者按字母顺序排列。
 
 修改署名时，在 `index.html` 搜索 `data-paper-authors`；`.author-list` 管理姓名和上标，`.author-affiliations` 管理完整单位名称，`.author-notes` 管理贡献说明，同时同步页面的 `author` 元数据。已预留的引用区域仍隐藏；填写 `#citation [data-bibtex]` 后可移除 `#citation` 的 `hidden`。作者主页或正式资源链接应使用经过确认的地址。
 
 除 Liuao Pei 外，其余姓名已链接到个人主页：[Tianyue Wu](https://tianyueh8erobot.github.io/)、[Hui Zhang](https://zdchan.github.io/)、[Ping Luo](https://luoping.me/)、[Jie Song](https://facultyprofiles.hkust-gz.edu.cn/faculty-personal-page/SONG-Jie/jsongroas)。封面的 `Code (coming soon)` 按钮暂时指向 https://ltbgbird.github.io/in-hand-assembly-page/ ；代码公开时在 `.hero-actions` 中替换该按钮的 `href` 并更新标签。
+
+封面的 `arXiv` 按钮链接到 https://arxiv.org/abs/2609.10137 。`Paper PDF` 与页脚的论文链接均使用 `assets/papers/paper.pdf?v=2609.10137v1`；以后替换 PDF 时同步更新这两处版本参数，避免浏览器继续使用旧文件缓存。
 
 论文标题、摘要和 Table 1 已核对。页面中的方法图来自 Figure 2、Figure 3，手型比较来自 Figure 4。新论文稿应同步更新网页内容和 PDF。未填写未知的会议录用信息。
 
