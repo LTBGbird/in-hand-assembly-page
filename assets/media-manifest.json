@@ -76,5 +76,21 @@
     "fullClip": true,
     "posterSeconds": 1.0,
     "audio": false
+  },
+  "successRateTest": {
+    "source": "/Users/bird/fachand_video/output/main 0604 2.mp4",
+    "fps": 25,
+    "startFrame": 4513,
+    "endFrameExclusive": 7235,
+    "duration": 108.88,
+    "posterOffsetSeconds": 2,
+    "video": "assets/videos/uncut-success-rate-test.mp4",
+    "poster": "assets/images/uncut-success-rate-test.jpg",
+    "finalOnScreenCounts": {
+      "Bottle": "14/20",
+      "Syringe": "19/20",
+      "Marker": "16/20"
+    },
+    "note": "Original counters and playback speed preserved; video counts differ from the paper's Table 1."
   }
 }

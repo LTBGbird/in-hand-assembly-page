@@ -1,6 +1,6 @@
 # Assembling Two Parts in One Hand
 
-英文静态项目主页。沉浸式视频封面，以及七个独立实验播放器；无需 npm、后端或构建步骤。
+英文静态项目主页。沉浸式视频封面、七个独立实验播放器，以及一段完整成功率测试；无需 npm、后端或构建步骤。
 
 ## 本地预览
 
@@ -19,7 +19,7 @@ http://127.0.0.1:8000/in-hand-assembly-page/
 
 ## 内容与署名
 
-- `index.html`：英文文案、七项实验、论文图、结果表、链接。
+- `index.html`：英文文案、七项实验、完整成功率测试、论文图、结果表、链接。
 - `assets/style.css`：封面、灰白黄配色和响应式布局。
 - `assets/main.js`：视频按需加载、离屏暂停、封面播放控制及导航高亮。
 - `assets/papers/paper.pdf`：最终版 `2609.10137v1.pdf` 的原样副本。
@@ -63,6 +63,10 @@ http://127.0.0.1:8000/in-hand-assembly-page/
 
 保留同一实验内的单次演示和并列多次试验；去掉原成片开头的综合预告、145.32–145.40 秒的两帧黑场及片尾黑场。
 
+结果表后展示 `Uncut Full Success Rate Test`，来源为 `main 0604 2.mp4` 的 180.52–289.40 秒，25 fps 帧范围 `[4513, 7235)`，时长 108.88 秒。输出为 `uncut-success-rate-test.mp4` 和同名 JPG，静态封面取片段第 2 秒。保留三路并列画面、原有播放速度、标题动画、全部试验、重置和计数，仅去掉上一实验、分界处的一帧黑场及片尾纯黑帧。该长视频不循环播放，沿用按需加载和离屏暂停。
+
+录像末尾原字幕为 Bottle 14/20、Syringe 19/20、Marker 16/20；与论文表格不一致，网页在视频下方说明差异，保留两份来源的原始数值。
+
 封面使用项目父目录中的 `cover_v0910.mp4`，保留完整剪辑（视频画面 16.20 秒），转为 H.264 静音循环播放。静态封面取第 1 秒。手机封面会裁切背景以适配竖屏，正文播放器始终显示完整实验画面。
 
 机器可读的素材来源、切点和输出路径记录在 `assets/media-manifest.json`。原始影片与 DaVinci 工程不修改。
@@ -81,12 +85,18 @@ python3 scripts/prepare_media.py --ffmpeg /path/to/ffmpeg
 python3 scripts/prepare_media.py --ffmpeg /path/to/ffmpeg --only-hero
 ```
 
+仅重新导出完整成功率测试（可用 `--success-test-source` 指定该成片的位置）：
+
+```sh
+python3 scripts/prepare_media.py --ffmpeg /path/to/ffmpeg --only-success-test
+```
+
 脚本在 `assets/videos/`、`assets/images/` 中生成网页文件，并更新素材清单。视频时长变化后同步更新播放器下方的时长说明。
 
 ## 发布前检查
 
 - 检查 1440px 桌面、768px 平板和 390px 手机布局。
-- 七个播放器可独立播放、拖动进度及全屏；切点不含其他实验。
+- 八个正文播放器可独立播放、拖动进度及全屏；切点不含其他实验。
 - 滚动时暂停离屏视频；手动暂停封面后返回封面不会自行播放。
 - 减少动态效果或节省流量偏好下，封面默认显示图片，仍可手动启动。
 - 自动播放被拦截时显示封面和播放按钮；媒体损坏时提供直接视频链接。
