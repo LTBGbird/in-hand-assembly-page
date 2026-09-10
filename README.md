@@ -28,7 +28,7 @@ http://127.0.0.1:8000/in-hand-assembly-page/
 
 修改署名时，在 `index.html` 搜索 `data-paper-authors`；`.author-list` 管理姓名和上标，`.author-affiliations` 管理完整单位名称，`.author-notes` 管理贡献说明，同时同步页面的 `author` 元数据。已预留的引用区域仍隐藏；填写 `#citation [data-bibtex]` 后可移除 `#citation` 的 `hidden`。作者主页或正式资源链接应使用经过确认的地址。
 
-除 Liuao Pei 外，其余姓名已链接到个人主页：[Tianyue Wu](https://tianyueh8erobot.github.io/)、[Hui Zhang](https://zdchan.github.io/)、[Ping Luo](https://luoping.me/)、[Jie Song](https://facultyprofiles.hkust-gz.edu.cn/faculty-personal-page/SONG-Jie/jsongroas)。封面的 `Code (coming soon)` 按钮暂时指向 https://ltbgbird.github.io/in-hand-assembly-page/ ；代码公开时在 `.hero-actions` 中替换该按钮的 `href` 并更新标签。
+除 Liuao Pei 外，其余姓名已链接到个人主页：[Tianyue Wu](https://tianyueh8erobot.github.io/)、[Hui Zhang](https://zdchan.github.io/)、[Ping Luo](https://luoping.me/)、[Jie Song](https://facultyprofiles.hkust-gz.edu.cn/faculty-personal-page/SONG-Jie/jsongroas)。封面的 `Code (11月前)` 按钮指向待开源仓库 https://github.com/LTBGbird/in-hand-assembly ，计划于 2026 年 11 月前发布三项组装任务的仿真训练代码及真实部署代码。代码公开后在 `.hero-actions` 中更新按钮标签。
 
 封面的 `arXiv` 按钮链接到 https://arxiv.org/abs/2609.10137 。`Paper PDF` 与页脚的论文链接均使用 `assets/papers/paper.pdf?v=2609.10137v1`；以后替换 PDF 时同步更新这两处版本参数，避免浏览器继续使用旧文件缓存。
 
