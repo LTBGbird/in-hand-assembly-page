@@ -32,7 +32,7 @@ http://127.0.0.1:8000/in-hand-assembly-page/
 
 封面的 `arXiv` 按钮链接到 https://arxiv.org/abs/2609.10137 。`Paper PDF` 与页脚的论文链接均使用 `assets/papers/paper.pdf?v=2609.10137v1`；以后替换 PDF 时同步更新这两处版本参数，避免浏览器继续使用旧文件缓存。
 
-论文标题、摘要和 Table 1 已核对。页面中的方法图来自 Figure 2、Figure 3，手型比较来自 Figure 4。新论文稿应同步更新网页内容和 PDF。封面标题上方标注 `Accepted at CoRL 2026` 和会议全称 `Conference on Robot Learning`，网页简介和分享摘要同步包含录用信息。
+论文标题、摘要和 Table 1 已核对。页面中的方法图来自 Figure 2、Figure 3，手型比较来自 Figure 4。新论文稿应同步更新网页内容和 PDF。封面标题上方仅显示 `Accepted at CoRL 2026` 黄色标签，网页简介和分享摘要同步包含录用信息。
 
 ## 视频维护
 
